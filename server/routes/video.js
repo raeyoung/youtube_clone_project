@@ -30,7 +30,7 @@ const upload = multer({ storage: storage }).single("file");
 //=================================
 
 router.post("/uploadfiles", (req, res) => {
-  // 클라이언트에서 받은 비디오를 서버에 저장한다.
+  // 클라이언트에서 받은 비디오를 서버에 저장
   upload(req, res, (err) => {
     if (err) {
       return res.josn({ success: false, err });
@@ -44,13 +44,25 @@ router.post("/uploadfiles", (req, res) => {
 });
 
 router.post("/uploadVideo", (req, res) => {
-  // 비디오의 정보들을 저장한다.
+  // 비디오의 정보들을 저장
   const video = new Video(req.body);
 
   video.save((err, doc) => {
     if (err) return res.json({ success: false, err });
     res.status(200).json({ success: true });
   });
+});
+
+router.get("/getVideos", (req, res) => {
+  // 비디오를 DB 에서 가져온 후 Client 에게 보내기
+
+  //populate 로 해야 모든 writer 정보를 가져올 수 있음
+  Video.find()
+    .populate("writer")
+    .exec((err, videos) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true, videos });
+    });
 });
 
 router.post("/thumbnail", (req, res) => {
