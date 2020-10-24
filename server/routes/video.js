@@ -65,6 +65,15 @@ router.get("/getVideos", (req, res) => {
     });
 });
 
+router.post("/getVideoDetail", (req, res) => {
+  Video.findOne({ _id: req.body.videoId })
+    .populate("writer")
+    .exec((err, video) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true, video });
+    });
+});
+
 router.post("/thumbnail", (req, res) => {
   let filePath = "";
   let fileDuration = "";
