@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, List, Avatar } from "antd";
 import Axios from "axios";
 import SideVideo from "./Sections/SideVideo";
+import Subscribe from "./Sections/Subscribe";
 
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId;
@@ -12,7 +13,6 @@ function VideoDetailPage(props) {
   useEffect(() => {
     Axios.post("/api/video/getVideoDetail", variable).then((response) => {
       if (response.data.success) {
-        debugger;
         console.log(response.data.video);
         setVideo(response.data.video);
       } else {
@@ -31,12 +31,13 @@ function VideoDetailPage(props) {
             controls
           />
 
-          <List.Item>
+          <List.Item actions={[<Subscribe />]}>
             <List.Item.Meta
               avatar={<Avatar src={Video.writer && Video.writer.image} />}
               title={<a href="https://ant.design">{Video.title}</a>}
               description={Video.description}
             />
+            <div></div>
           </List.Item>
         </div>
       </Col>
