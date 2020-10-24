@@ -31,7 +31,7 @@ function VideoDetailPage(props) {
             controls
           />
 
-          <List.Item actions={[<Subscribe />]}>
+          <List.Item actions={[<Subscribe userTo={Video.writer} />]}>
             <List.Item.Meta
               avatar={<Avatar src={Video.writer && Video.writer.image} />}
               title={<a href="https://ant.design">{Video.title}</a>}
