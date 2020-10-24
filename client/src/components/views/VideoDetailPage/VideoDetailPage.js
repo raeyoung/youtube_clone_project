@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, List, Avatar } from "antd";
 import Axios from "axios";
+import SideVideo from "./Sections/SideVideo";
 
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId;
@@ -21,7 +22,7 @@ function VideoDetailPage(props) {
   }, []);
 
   return (
-    <Row>
+    <Row gutter={[16, 16]}>
       <Col lg={18} xs={24}>
         <div style={{ width: "100%", padding: "3rem 4rem" }}>
           <video
@@ -30,15 +31,17 @@ function VideoDetailPage(props) {
             controls
           />
 
-          <List.Item.Meta
-            avatar={<Avatar src={Video.writer && Video.writer.image} />}
-            title={<a href="https://ant.design">{Video.title}</a>}
-            description={Video.description}
-          />
+          <List.Item>
+            <List.Item.Meta
+              avatar={<Avatar src={Video.writer && Video.writer.image} />}
+              title={<a href="https://ant.design">{Video.title}</a>}
+              description={Video.description}
+            />
+          </List.Item>
         </div>
       </Col>
       <Col lg={6} xs={24}>
-        Side Videos
+        <SideVideo />
       </Col>
     </Row>
   );
