@@ -31,7 +31,14 @@ function VideoDetailPage(props) {
             controls
           />
 
-          <List.Item actions={[<Subscribe userTo={Video.writer} />]}>
+          <List.Item
+            actions={[
+              <Subscribe
+                userTo={Video.writer_id}
+                userFrom={localStorage.getItem("userId")}
+              />,
+            ]}
+          >
             <List.Item.Meta
               avatar={<Avatar src={Video.writer && Video.writer.image} />}
               title={<a href="https://ant.design">{Video.title}</a>}
