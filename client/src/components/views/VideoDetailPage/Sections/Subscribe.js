@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-function Subscriber(props) {
+function Subscribe(props) {
   const userTo = props.userTo;
   const userFrom = props.userFrom;
 
@@ -84,4 +84,4 @@ function Subscriber(props) {
   );
 }
 
-export default Subscriber;
+export default Subscribe;
