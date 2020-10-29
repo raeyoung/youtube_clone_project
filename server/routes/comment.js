@@ -5,6 +5,8 @@ const { Comment } = require("../models/Comment");
 //=================================
 //             COMMENT
 //=================================
+
+// save comment
 router.post("/saveComment", (req, res) => {
   const comment = new Comment(req.body);
 
@@ -18,6 +20,16 @@ router.post("/saveComment", (req, res) => {
         res.status(200).json({ success: true, result });
       });
   });
+});
+
+//Get All Comment Info
+router.post("/getComments", (req, res) => {
+  Comment.find({ videoId: req.body.videoId })
+    .populate("writer")
+    .exec((err, comments) => {
+      if (err) return res.json({ success: false, err });
+      res.status(200).json({ success: true, comments });
+    });
 });
 
 module.exports = router;

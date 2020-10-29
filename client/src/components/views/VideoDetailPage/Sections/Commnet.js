@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
+import SingleComment from "./SingleComment";
 
 function Commnet(props) {
   const videoId = props.postId;
@@ -21,9 +22,13 @@ function Commnet(props) {
       postId: videoId,
     };
 
+    // Save Comment
     Axios.post("/api/comment/saveComment", variables).then((response) => {
       if (response.data.success) {
         console.log(response.data.result);
+
+        setcommentValue("");
+        props.refreshFunction(response.data.result);
       } else {
         alert("Failed to save comment!");
       }
@@ -34,6 +39,21 @@ function Commnet(props) {
       <br />
       <p> Replies</p>
       <hr />
+
+      {/* Comment List */}
+      {/* {console.log(props.commentLists)} */}
+
+      {props.commentLists &&
+        props.commentLists.map(
+          (comment, index) =>
+            !comment.responseTo && ( // responseTo 가 없는 댓글만 출력 (원댓글)
+              <SingleComment
+                comment={comment}
+                postId={props.postId}
+                refreshFunction={props.refreshFunction}
+              />
+            )
+        )}
 
       <form style={{ display: "flex" }} onSubmit={onSubmit}>
         <textarea
