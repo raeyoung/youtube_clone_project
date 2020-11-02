@@ -47,6 +47,27 @@ function LikeDislikes(props) {
       }
     });
   }, []);
+
+  //Click Like Btn
+  const onLike = () => {
+    // Before clicking the like button
+    if (LikeAction === null) {
+      Axios.post("/api/like/uplike", variable).then((response) => {
+        if (response.data.success) {
+          setLikes(likes + 1);
+          setLikeAction("liked");
+
+          // In case disLike Button is already clicked
+          if (DislikeAction !== null) {
+            setDislikeAction(null);
+            setDislikes(Dislikes - 1);
+          }
+        } else {
+          alert("Failed to get uplike");
+        }
+      });
+    }
+  };
   return (
     <div>
       {/* like */}
@@ -55,7 +76,7 @@ function LikeDislikes(props) {
           <Icon
             type="like"
             theme={LikeAction === "liked" ? "filled" : "outlined"}
-            onClick
+            onClick={onLike}
           />
         </Tooltip>
         <span style={{ paddingLeft: "8px", cursor: "auto" }}> {Likes}</span>
