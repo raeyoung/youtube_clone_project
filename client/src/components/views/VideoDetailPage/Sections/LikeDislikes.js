@@ -48,13 +48,13 @@ function LikeDislikes(props) {
     });
   }, []);
 
-  //Click Like Btn
+  // Click Like Btn
   const onLike = () => {
     // Before clicking the like button
     if (LikeAction === null) {
       Axios.post("/api/like/uplike", variable).then((response) => {
         if (response.data.success) {
-          setLikes(likes + 1);
+          setLikes(Likes + 1);
           setLikeAction("liked");
 
           // In case disLike Button is already clicked
@@ -64,6 +64,46 @@ function LikeDislikes(props) {
           }
         } else {
           alert("Failed to get uplike");
+        }
+      });
+
+      // If like is clicked
+    } else {
+      Axios.post("/api/like/unlike", variable).then((response) => {
+        if (response.data.success) {
+          setLikes(Likes - 1);
+          setLikeAction(null);
+        } else {
+          alert("Failed to get unlike");
+        }
+      });
+    }
+  };
+
+  // Click Dislike btn
+  const onDislike = () => {
+    if (DislikeAction !== null) {
+      Axios.post("/api/like/undislike", variable).then((response) => {
+        if (response.data.success) {
+          setDislikes(Dislikes - 1);
+          setDislikeAction(null);
+        } else {
+          alert("Failed to decrease dislike");
+        }
+      });
+    } else {
+      Axios.post("/api/like/updislike", variable).then((response) => {
+        if (response.data.success) {
+          setDislikes(Dislikes + 1);
+          setDislikeAction("disliked");
+
+          //If dislike button is already clicked
+          if (LikeAction !== null) {
+            setLikeAction(null);
+            setLikes(Likes - 1);
+          }
+        } else {
+          alert("Failed to increase dislike");
         }
       });
     }
@@ -87,8 +127,8 @@ function LikeDislikes(props) {
         <Tooltip title="DisLike">
           <Icon
             type="dislike"
-            theme={DislikeAction === "disliked" ? "outlined" : "filled"}
-            onClick
+            theme={DislikeAction === "disliked" ? "filled" : "outlined"}
+            onClick={onDislike}
           />
         </Tooltip>
         <span style={{ paddingLeft: "8px", cursor: "auto" }}> {Dislikes} </span>
