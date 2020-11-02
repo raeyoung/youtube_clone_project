@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Comment, Avatar, Button, Input } from "antd";
 import Axios from "axios";
+import LikeDislikes from "./LikeDislikes";
 
 const { TextArea } = Input;
 
@@ -35,17 +36,21 @@ function SingleComment(props) {
     // Save Comment
     Axios.post("/api/comment/saveComment", variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data.result);
-
         setCommentValue("");
+
         props.refreshFunction(response.data.result);
       } else {
-        alert("Failed to save comment!");
+        alert("Failed to save Comment");
       }
     });
   };
 
   const actions = [
+    <LikeDislikes
+      video
+      userId={localStorage.getItem("userId")}
+      commentId={props.comment._id}
+    />,
     <span onClick={onCLickReplyOpen} key="comment-basic-reply-to">
       Reply to
     </span>,

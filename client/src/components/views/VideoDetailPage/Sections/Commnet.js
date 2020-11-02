@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import SingleComment from "./SingleComment";
+import ReplyComment from "./ReplyComment";
 
 function Commnet(props) {
   const videoId = props.postId;
@@ -47,11 +48,19 @@ function Commnet(props) {
         props.commentLists.map(
           (comment, index) =>
             !comment.responseTo && ( // responseTo 가 없는 댓글만 출력 (원댓글)
-              <SingleComment
-                comment={comment}
-                postId={props.postId}
-                refreshFunction={props.refreshFunction}
-              />
+              <React.Fragment>
+                <SingleComment
+                  comment={comment}
+                  postId={props.postId}
+                  refreshFunction={props.refreshFunction}
+                />
+                <ReplyComment
+                  commentLists={props.commentLists}
+                  postId={props.postId}
+                  parentCommentId={comment._id}
+                  refreshFunction={props.refreshFunction}
+                />
+              </React.Fragment>
             )
         )}
 
